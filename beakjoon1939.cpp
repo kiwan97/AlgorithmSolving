@@ -61,6 +61,7 @@ int main(){
 			h = mid;
 		}
 	}
+	
 	if(!bfs(l)){
 		l--;
 	}
