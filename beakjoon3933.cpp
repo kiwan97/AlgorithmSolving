@@ -5,15 +5,14 @@ using namespace std;
 int N;
 int dp[(1<<15)+1][5];
 int main(){
-
+	ios_base :: sync_with_stdio(false);
+	cin.tie(NULL);
 	for(int i=1;i*i<=(1<<15);i++){
 		dp[i*i][1] = 1;
-	}
-	for(int i=1;i<=(1<<15);i++){
-		for(int j=1;i-j*j>0;j++){
+		for(int j=1;j+i*i<=(1<<15);j++){
 			for(int k=1;k<4;k++){
-				dp[i][k+1] += dp[i-j*j][k];
-			}	
+				dp[j+i*i][k+1] += dp[j][k];
+			}
 		}
 	}
 
