@@ -34,22 +34,36 @@ void printnxtMap(){
 }
 int findClose(int num){
 	int rt = 1e9;
+	vector<int> all;
 	for(int col=0;col<C;col++){
 		int idx = R-1;
 		int cnt=0;
-		while(idx>=0 && nxtMap[idx][col]!=num)
-			idx--;
-		idx++;
-		while(idx<R && nxtMap[idx][col]==0){
+		all.clear();
+		for(int i=0;i<R;i++)
+			if(nxtMap[i][col]==num)
+				all.push_back(i);
+
+		for(int i=0;i<all.size();i++){
+			idx = all[i];
 			idx++;
-			cnt++;
+			cnt = 0;
+			while(idx<R && nxtMap[idx][col]==0){
+				cnt++;
+				idx++;
+			}
+			if(idx==R){
+				rt = min(rt,cnt);
+			}
+			else if(idx<R && nxtMap[idx][col]!=num)
+				rt = min(rt,cnt);
 		}
-		rt = min(rt,cnt);
 	}
 	return rt;
 }
 
 void moveCluster(int num,int val){
+	if(val==0)
+		return;
 	for(int col=0;col<C;col++){
 		int idx = R-1;
 		while(idx>=0 && nxtMap[idx][col]!=num)
@@ -109,7 +123,6 @@ bool bfs(int r,int c, int num){
 	while(!q.empty()){
 		auto t = q.front();
 		q.pop();
-		cout << "x : "<<t.first << ", y : "<<t.second << '\n';
 		for(int i=0;i<4;i++){
 			int tr = t.first + dx[i];
 			int tc = t.second + dy[i];
@@ -130,11 +143,12 @@ void Command(){
 	int fallen;
 	for(int row=0;row<R;row++){
 		for(int col=0;col<C;col++){
-			if(Map[row][col]=='x' && nxtMap[row][col] == 0)
+			if(Map[row][col]=='x' && nxtMap[row][col] == 0){
 				nxtMap[row][col] = ++num;
 				if(!bfs(row,col,num)){
 					fallen = num;
 				}
+			}
 		}
 	}
 	moveCluster(fallen,findClose(fallen));
@@ -154,6 +168,8 @@ int main(){
 	for(int i=0;i<R;i++){
 		cin >> Map[i];
 	}
+	initnxtMap();
+	Command();
 	cin >> N;
 	int cmd;
 	bool isLeft;
