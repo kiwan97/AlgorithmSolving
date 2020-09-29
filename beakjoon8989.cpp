@@ -36,9 +36,9 @@ int main(){
 			v.push_back({times,getAngle(str2int(times.substr(0,2)),str2int(times.substr(3,2)))});
 		}
 		sort(v.begin(),v.end(),comp2);
-		for(int i=0;i<5;i++)
-			cout << v[i].first << ", "<<v[i].second << '\n';
-		cout << '\n';
+		// for(int i=0;i<5;i++)
+		// 	cout << v[i].first << ", "<<v[i].second << '\n';
+		// cout << '\n';
 		cout << v[2].first << '\n';
 	}
 
